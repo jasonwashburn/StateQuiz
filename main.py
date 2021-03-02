@@ -4,7 +4,8 @@ import pandas as pd
 # Declare initial variables
 map_image_path = "./blank_states_img.gif"
 states_data_path = "./50_states.csv"
-states_correct = 0
+states_correct = []
+
 
 # Set-up screen
 screen = Screen()
@@ -23,15 +24,15 @@ states = pd.read_csv("50_states.csv")
 
 game_is_on = True
 while game_is_on:
-    user_input = textinput(f"{states_correct}/50 States Correct", "What's another state name?")
+    user_input = textinput(f"{len(states_correct)}/50 States Correct", "What's another state name?")
     if type(user_input) == str:
-        user_input = user_input.lower()
-        user_input = user_input.capitalize()
+        user_input = user_input.title()
         if states.state.str.contains(user_input).any():
             state_x = int(states[states.state == user_input].x)
             state_y = int(states[states.state == user_input].y)
             turtle.goto(state_x, state_y)
             turtle.write(user_input, align='center')
+            states_correct.append(user_input)
         else:
             print(False)
     else:
