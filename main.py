@@ -5,7 +5,7 @@ import pandas as pd
 map_image_path = "./blank_states_img.gif"
 states_data_path = "./50_states.csv"
 states_correct = []
-
+states_to_learn = []
 
 # Set-up screen
 screen = Screen()
@@ -26,7 +26,8 @@ game_is_on = True
 
 while game_is_on:
     user_input = textinput(f"{len(states_correct)}/50 States Correct", "What's another state name?")
-    if type(user_input) == str:
+    print(user_input)
+    if type(user_input) == str and user_input != "":
         user_input = user_input.title()  # Convert user input to title case to ease comparison with state data
         if states.state.str.contains(user_input).any():
             state_x = int(states[states.state == user_input].x)
@@ -37,6 +38,11 @@ while game_is_on:
         else:
             print(False)
     else:
+        for state in states.state:
+            if state not in states_correct:
+                states_to_learn.append(state)
         game_is_on = False  # If user clicks cancel or doesn't enter a name, the game loop ends
-
+print(states_to_learn)
+to_learn_df = pd.DataFrame(states_to_learn)
+to_learn_df.to_csv('states_to_learn.csv')
 screen.exitonclick()
