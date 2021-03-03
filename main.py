@@ -38,9 +38,7 @@ while game_is_on:
         else:
             print(False)
     else:
-        for state in states.state:
-            if state not in states_correct:
-                states_to_learn.append(state)
+        states_to_learn = [state for state in states.state if state not in states_correct]
         game_is_on = False  # If user clicks cancel or doesn't enter a name, the game loop ends
 print(states_to_learn)
 to_learn_df = pd.DataFrame(states_to_learn)
